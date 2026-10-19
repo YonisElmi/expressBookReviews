@@ -51,7 +51,8 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   if (books[isbn]) {
     let bookReviews = books[isbn].reviews;
     bookReviews[username] = review;
-    return res.status(200).json({ message: "The review was successfully added/updated." });
+    // Return both the message and the updated reviews object
+    return res.status(200).json({ message: "The review was successfully added/updated.", reviews: bookReviews });
   } else {
     return res.status(404).json({ message: `Book with ISBN ${isbn} not found` });
   }
