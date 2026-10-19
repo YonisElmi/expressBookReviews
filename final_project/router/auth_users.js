@@ -18,26 +18,23 @@ const authenticatedUser = (username, password) => {
 }
 
 // Task 7: Only registered users can login
-regd_users.post("/login", (req, res) => {
+regd_users.post("/login", (req,res) => {
   const username = req.body.username;
   const password = req.body.password;
-
   if (!username || !password) {
-    return res.status(400).json({ message: "Error logging in: Username and password are required" });
+    return res.status(404).json({message: "Error logging in"});
   }
-
-  if (authenticatedUser(username, password)) {
+  if (authenticatedUser(username,password)) {
     let accessToken = jwt.sign({
       data: password
     }, 'access', { expiresIn: 60 * 60 });
-
     req.session.authorization = {
       accessToken,
       username
     }
-    return res.status(200).json({ message: "User successfully logged in" });
+    return res.status(200).json({message: "User successfully logged in"});
   } else {
-    return res.status(401).json({ message: "Invalid Login. Check username and password" });
+    return res.status(208).json({message: "Invalid Login. Check username and password"});
   }
 });
 
